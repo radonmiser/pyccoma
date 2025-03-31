@@ -28,7 +28,7 @@ log = logging.getLogger(__name__)
 
 
 class Scraper(metaclass=ABCMeta):
-    def __init__(self):
+    def __init__(self, proxy_url=None):
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                           'AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -37,6 +37,15 @@ class Scraper(metaclass=ABCMeta):
         }
         self.session = session()
         self.session.verify = True
+        
+        # Configure proxy if provided
+        if proxy_url:
+            self.session.proxies = {
+                'http': proxy_url,
+                'https': proxy_url
+            }
+            log.info(f"Using proxy: {proxy_url}")
+            
         self.__is_login = False
         self._lock = Lock()
         self._format = "png"
@@ -45,7 +54,7 @@ class Scraper(metaclass=ABCMeta):
         self._retry_count = 3
         self._retry_interval = 1
         self._zeropad = 0
-
+        
     @property
     def format(self) -> str:
         return self._format

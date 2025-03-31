@@ -23,8 +23,9 @@ log = logging.getLogger(__name__)
 
 
 class Pyccoma(Scraper):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, proxy_url=None, *args, **kwargs):
+        # Make sure to explicitly forward the proxy_url and any other arguments
+        super().__init__(proxy_url=proxy_url, *args, **kwargs)
         self.csrf = None
         self._etype = {
             "manga": "V",

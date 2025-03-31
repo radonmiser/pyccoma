@@ -29,9 +29,9 @@ def main() -> None:
         region = args.region.lower()
 
         if region == 'jp':
-            pyccoma = Jp()
+            pyccoma = Jp(proxy_url=args.proxy)
         elif region == 'fr':
-            pyccoma = Fr()
+            pyccoma = Fr(proxy_url=args.proxy)
         else:
             raise ValueError("Invalid region specified.")
 
@@ -175,6 +175,11 @@ def construct_parser() -> argparse.ArgumentParser:
         action="store_true",
         default=False,
         help="Omit author(s) in title naming scheme."
+    )
+    optional.add_argument(
+        "--proxy",
+        type=str,
+        help="Use a proxy for requests (e.g., socks5://host:port)"
     )
 
     locale = parser.add_argument_group("Locale options")

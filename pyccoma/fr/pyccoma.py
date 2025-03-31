@@ -23,13 +23,14 @@ log = logging.getLogger(__name__)
 
 
 class Pyccoma(Scraper):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, proxy_url=None, *args, **kwargs):
+        # Make sure to explicitly forward the proxy_url and any other arguments
+        super().__init__(proxy_url=proxy_url, *args, **kwargs)
         self.api_url = self.get_api_url()
         self.history_url = history_url % self.api_url
         self.bookmark_url = bookmark_url % self.api_url
         self.purchase_url = purchase_url % self.api_url
-
+        
         self._etype = {
             "manga": "volume",
             "smartoon": "episode",

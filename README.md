@@ -115,6 +115,7 @@ Elapsed time: 00:00:23
 | -p, --pad       | Pad page numbers with leading zeroes      | `0` (default)                                                          |
 | --archive       | Download as cbz archive                 |                                                                        |
 | --omit-author   | Omit author names from titles             |                                                                        |
+| --proxy         | Proxy url                                 | `socks5://username:password@proxy_host:port`
 
 ### Retry
 
