@@ -66,8 +66,19 @@ def main() -> None:
         password = ""
 
         if args.email:
-            if not password:
-                password = getpass()
+            password = "" # Keep initialization
+            # Check if password was provided via argument
+            if args.password:
+                password = args.password
+                log.debug("Using password provided via --password argument.")
+            # Otherwise, prompt if not provided
+            else:
+                try:
+                    password = getpass(f"Enter password for {args.email}: ")
+                except EOFError:
+                     parser.error("Password required when using --email in a non-interactive terminal. Use the --password argument.")
+                if not password:
+                     parser.error("Password cannot be empty.")
 
             pyccoma.login(args.email, password)
 
@@ -212,7 +223,11 @@ def construct_parser() -> argparse.ArgumentParser:
         type=str,
         help="Account email address."
     )
-
+    user.add_argument(
+        "--password",
+        type=str,
+        help="Account password. Use with --email. If omitted, you will be prompted."
+    )
     filter = parser.add_argument_group("Filter options")
     filter.add_argument(
         "--etype",
